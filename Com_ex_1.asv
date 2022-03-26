@@ -46,16 +46,12 @@ peak = getPeakGain(syscl); % magnitude
 Mt = 20*log10(peak); % in dB
 
 %% ===== 4.2 =====
-%% plant 
 %rise time less than 0.2 overshoot less than 10%
-s = tf('s');
-G = 20/((s+1)*((s/20)^2+s/20+1));
-Gd = 10/(s+1);
-wc = 1;
-Fy = 1/G*wc/s;
-L = Fy*G/s^2;
-syscl = feedback(L,1);
-step(syscl)
+
+
+
+
+
 
 
 

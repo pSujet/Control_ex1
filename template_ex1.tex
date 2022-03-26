@@ -1,0 +1,62 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{amsmath,amssymb,amsthm,amsfonts}
+\usepackage[demo]{graphicx} % REMOVE "demo" to include figures!
+
+\title{
+	Computer Exercise 1\\
+	EL2520 Control Theory and Practice
+}
+\author{
+	Jane Doe\\
+	x@kth.se\\
+	YYMMDD-NNNN
+	\and
+	John Doe\\
+	y@kth.se\\
+	YYMMDD-NNNN
+}
+
+\newcommand{\image}[3][width=1.0\columnwidth]{
+	\begin{figure}[h!]
+		\centering
+	    \includegraphics[#1]{#2}
+		\caption{#3}
+		\label{fig:#2}
+	\end{figure}
+}
+
+\begin{document}
+	\maketitle
+
+	% Minimum phase case
+	\section*{Disturbance attenuation}
+	
+	How should the extra poles be chosen in exercise 4.2.1? Motivate! 
+	\par\dotfill\par\dotfill\par
+
+	The feedback controller in exercise 4.2.2 is
+	\[
+		F_y(s) = \ldots
+	\]
+
+	\image{figure_1.pdf}{Step disturbance, exercise 4.2.2}
+	
+	The feedback controller and prefilter in exercise 4.2.3 is 
+	\[
+	F_y(s) = \ldots
+	\]
+	\[
+	F_r(s) = \ldots
+	\]
+	\image{figure_2.pdf}{Reference step, exercise 4.2.3}
+	\image{figure_3.pdf}{Control signal for a disturbance or a reference step (plus a combination of these)}
+
+	Did you manage to fulfill all the specifications? If not, what do you think makes the specifications difficult to achieve?
+	\par\dotfill\par\dotfill\par
+	
+	\image{figure_4.pdf}{Bode diagram of sensitivity and complementary sensitivity functions, exercise 4.2.4}
+
+\end{document}

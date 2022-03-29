@@ -85,6 +85,38 @@ syscl = feedback(L,1);
 figure,step(syscl);
 
 %% 4.2.3 Reference tracking specifications
+bode(L)
+%% Lead controller
+wc = 10;
+[m,phase] = bode(G,wc);
+phi = 15;
+a = (1+sind(phi))/(1-sind(phi));
+beta = 1/a;
+Td = 1/(wc*sqrt(beta));
+F_lead = (Td *s +1)/(beta*Td*s+1);
+[m,phase] = bode(F_lead*L,wc);
+figure,bode(F_lead*L)
+
+LLL = F_lead*L;
+syscl = feedback(LLL,1);
+figure,step(syscl);
+% sensitivity
+S = 1/(1+LLL);
+SGd = S*Gd;
+% step response of disturbance
+figure,step(SGd);
+
+%% Low pass filter
+tau = 0.1;
+Fr = 1/(1+tau*s);
+figure,step(Fr*syscl)
+
+%% checking input
+figure,(step(F_lead*Fy*Fr*S))
+figure,(step(F_lead*Fy*Gd*S))
+
+
+%% excess
 %%
 bode(L)
 hold on
@@ -98,37 +130,6 @@ S = 1/(1+LL);
 SGd = S*Gd;
 % step response of disturbance
 figure,step(SGd);
-
-%%
-Fr = 1;
-r = 0;
-d = 0;
-u = Fy*Fr*S*r - Fy*Gd*S*d;
-figure,step(Fy*Gd*S)
-
-%% Lead controller
-wc = 10;
-[m,phase] = bode(G,wc);
-phi = 30;
-a = (1+sind(phi))/(1-sind(phi));
-beta = 1/a;
-Td = 1/(wc*sqrt(beta));
-F_lead = (Td *s +1)/(beta*Td*s+1);
-[m,phase] = bode(F_lead*L,wc);
-bode(F_lead*L)
-
-%%
-LLL = F_lead*L;
-syscl = feedback(LLL,1);
-figure,step(syscl);
-% sensitivity
-S = 1/(1+LLL);
-SGd = S*Gd;
-% step response of disturbance
-figure,step(SGd);
-
-
-
 %%
 hold on
 K = 1/m;

@@ -71,7 +71,7 @@ step(syscl)
 % scaled disturbance
 Gd = 10/(s+1);
 % design controller
-wI = 10;
+wI = 10; %10
 Fy = (s+wI)/s/G*Gd * 1/(s/100+1)^2;
 % compute L
 L = Fy*G;
@@ -85,19 +85,20 @@ syscl = feedback(L,1);
 figure,step(syscl);
 
 %% 4.2.3 Reference tracking specifications
-bode(L)
+figure,bode(L)
 %% Lead controller
-wc = 10;
+wc = 12; %12
 [m,phase] = bode(G,wc);
-phi = 15;
+phi = 5; %4.5
 a = (1+sind(phi))/(1-sind(phi));
 beta = 1/a;
 Td = 1/(wc*sqrt(beta));
 F_lead = (Td *s +1)/(beta*Td*s+1);
 [m,phase] = bode(F_lead*L,wc);
-figure,bode(F_lead*L)
+K = 1/m;
+figure,bode(K*F_lead*L)
 
-LLL = F_lead*L;
+LLL = K*F_lead*L;
 syscl = feedback(LLL,1);
 figure,step(syscl);
 % sensitivity
@@ -107,13 +108,36 @@ SGd = S*Gd;
 figure,step(SGd);
 
 %% Low pass filter
-tau = 0.1;
+tau = 0.15; %0.135
 Fr = 1/(1+tau*s);
 figure,step(Fr*syscl)
+stepinfo(Fr*syscl)
 
 %% checking input
-figure,(step(F_lead*Fy*Fr*S))
-figure,(step(F_lead*Fy*Gd*S))
+u_r = K*F_lead*Fy*Fr*S;
+u_d = K*F_lead*Fy*Gd*S;
+figure,(step(K*F_lead*Fy*Fr*S));
+figure,(step(K*F_lead*Fy*Gd*S));
+
+%% Check specs for u -> y
+[step_u_r,time_r] = step(u_r, 0.6);
+[step_u_d,time_d] = step(u_d, 0.6);
+step_u_rd = step_u_r + step_u_d;
+time = time_r;
+figure,plot(time,step_u_rd)
+
+%%
+figure, bode(S)
+hold on
+bode(1-S)
+
+
+
+
+
+
+
+
 
 
 %% excess
@@ -150,6 +174,11 @@ figure,step(SGd);
 %% Prefiltering
 tau = 1;
 Fr = 1/(1+tau*s);
+
+
+
+
+
 
 
 

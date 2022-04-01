@@ -159,32 +159,26 @@ hold on
 bode(1-S)
 figure
 % Sensitivity (S)
-[mag,phase,wout] = bode(S,{10^-2,10^4});
+[mag,phase,wout] = bode(S);
 Mag = 20*log10(mag(:));
 Phase=phase(:);
 
 % Complementary sensitivity (T)
-[magT,phaseT,woutT] = bode(1-S,{10^-2,10^4});
-MagT = 20*log10(magT(:));
-PhaseT = phaseT(:);
+
+
+
 
 subplot(2,1,1);
-semilogx(wout,Mag,'LineWidth',1.5);
-hold on
-semilogx(woutT,MagT,'LineWidth',1.5);
+semilogx(wout,Mag,'LineWidth',1);
 grid on;
 title("Bode Diagram");
 ylabel("Magnitude (dB)");
-legend("S","T");
 
 subplot(2,1,2);
-semilogx(wout,Phase,'LineWidth',1.5);
-hold on
-semilogx(woutT,PhaseT,'LineWidth',1.5);
+semilogx(wout,Phase,'LineWidth',1);
 grid on;
 ylabel("Phase (deg)");
 xlabel("Frequency (rad/s)");
-legend("S","T");
 
 
 

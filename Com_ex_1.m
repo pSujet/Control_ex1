@@ -83,32 +83,41 @@ figure,step(SGd);
 % step response of close loop system
 syscl = feedback(L,1);
 figure,step(syscl);
+[x,y] = step(SGd);
+plot(y,x,"Linewidth",2);
+title("Disturbance Response");
+yline(0.1,'--',"Linewidth",2);
+grid on
+ylabel("Amplitude");
+xlabel("Time (seconds)");
 
 %% 4.2.3 Reference tracking specifications
 figure,bode(L)
 %% Lead controller
 wc = 12; %12
 [m,phase] = bode(G,wc);
-phi = 5; %4.5
+phi = 4.5; %4.5
 a = (1+sind(phi))/(1-sind(phi));
 beta = 1/a;
 Td = 1/(wc*sqrt(beta));
 F_lead = (Td *s +1)/(beta*Td*s+1);
 [m,phase] = bode(F_lead*L,wc);
 K = 1/m;
-figure,bode(K*F_lead*L)
+% figure,bode(K*F_lead*L)
 
 LLL = K*F_lead*L;
 syscl = feedback(LLL,1);
-figure,step(syscl);
+% figure,step(syscl);
 % sensitivity
 S = 1/(1+LLL);
 SGd = S*Gd;
 % step response of disturbance
-figure,step(SGd);
+figure;
+step(SGd)
+
 
 %% Low pass filter
-tau = 0.15; %0.135
+tau = 0.135; %0.135
 Fr = 1/(1+tau*s);
 figure,step(Fr*syscl)
 stepinfo(Fr*syscl)
